@@ -1,0 +1,153 @@
+/* @font-face {
+  src: url("css/fonts/poppins/Poppins-Regular.ttf");
+} */
+
+@import url('https://fonts.cdnfonts.com/css/poppins');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f5f8fd;
+  padding: 0px;
+  margin: 0px;
+}
+
+.nav {
+  border: 1px solid #ccc;
+  width: fit-content;
+  height: 100% !important;
+  padding: 20px;
+  padding-top: 0px;
+  background: #1C2434;
+  color: #fff;
+  box-shadow: 2px 2px 3px #ccc;
+  position: fixed;
+  z-index: 2;
+}
+
+.nav .app-name {
+  margin-top: 15px;
+  /* font-weight: 600; */
+}
+
+.menu {
+  margin-top: 50px;
+  margin-left: 0px;
+  padding-left: 0px;
+  list-style-type: none;
+}
+
+.menu > li {
+  font-size: 9.5px;
+  /* font-weight: bold; */
+  margin-bottom: 15px;
+}
+
+.menu li.settings, .menu li.logout {
+  position: relative;
+  top: 180px;
+}
+
+.menu li ul {
+  margin-top: 15px;
+  margin-left: 0px;
+  padding-left: 10px;
+  list-style-type: none;
+}
+
+.menu li img {
+  position: relative;
+  top: 12px;
+  height: 13px;
+  margin-right: 5px;
+}
+
+.menu li ul li {
+  margin-bottom: 15px;
+}
+
+.menu li ul li a, .menu li a {
+  text-decoration: none;
+  color: #fff;
+  margin-left: 20px;
+}
+
+.right_nav {
+  height: 50px;
+  background: #fff;
+  box-shadow: 0px 4px 25px 0px #00000014;
+  /* box-shadow: 2px 2px 3px #ccc; */
+  border: 1px solid #ccc;
+  padding-right: 30px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+
+.right_nav a {
+  float: right;
+  margin-top: 7px;
+  padding: 8px;
+  font-size: 13px;
+}
+
+.right_nav a:first-child {
+  margin-right: 30px;
+}
+
+.right_nav a .name {
+  font-weight: 500;
+  position: relative;
+  top: -20px;
+  left: 30px;
+  font-size: 11px;
+}
+
+.breadcumb {
+  position: relative;
+  top: -40px;
+  left: -15px;
+}
+
+.breadcumb .link a {
+  position: relative;
+  left: 28px;
+  color: #64748B;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.content {
+  box-shadow: 0px 4px 25px 0px #00000014;
+  /* box-shadow: 2px 2px 3px #ccc; */
+  position: relative;
+  top: 50px;
+  left: 0px;
+  border: 1px solid #ccc;
+  width: 62%;
+  /* min-height: 200px; */
+  height: 160px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    width: 200px;
+  }
+
+  .content {
+    left: 50px;
+    width: 70%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .breadcumb .title {
+    padding-top: 5px;
+  }
+
+  .breadcumb .link a, .breadcumb .link span, .breadcumb .title {
+    font-size: 12px;
+  }
+}
