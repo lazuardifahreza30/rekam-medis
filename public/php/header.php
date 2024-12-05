@@ -1,80 +1,141 @@
-<?php
-$pathContent = 'http://'.$_SERVER['HTTP_HOST'].'/';
-?>
+<?php date_default_timezone_set('Asia/Jakarta'); ?>
 
-<div class="nav">
-  <h6 class="app-name">MBKM Dashboard</h6>
-  <ul class="menu">
-    <li class="home">
-      <img src="<?=$pathContent?>img/home.svg" />
-      <a href="<?=$pathContent?>">Home</a></li>
-    <?php if ($data['role'] == 4): ?>
-      <li class="data">
-        <img src="<?=$pathContent?>img/dropdown-list.svg" />
-        <a>Data</a>
-        <img src="<?=$pathContent?>img/arrow-up.svg" style="float: right; margin-top: -10px" />
-        <ul class="submenu">
-            <li class="kaprodi">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>kaprodi">Kaprodi</a></li>
-            <li class="bkp">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>data-bkp">BKP</a></li>
-            <li class="skema">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>data-skema">Skema</a></li>
-            <li class="mitra">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>data-mitra">Mitra</a></li>
-            <li class="form">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>form">Form</a></li>
-        </ul>
+<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+  <div class="navbar-brand-wrapper d-flex justify-content-center">
+    <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
+      <!-- <a class="navbar-brand brand-logo" href="../../index.html"><img src="../../images/logo.svg" alt="logo"/></a> -->
+      <!-- <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a> -->
+      <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+        <span class="mdi mdi-sort-variant"></span>
+      </button>
+    </div>
+  </div>
+  <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+    <ul class="navbar-nav mr-lg-4 w-100">
+      <li class="nav-item nav-search d-none d-lg-block w-100">
+        <!-- <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="search">
+              <i class="mdi mdi-magnify"></i>
+            </span>
+          </div>
+          <input type="text" class="form-control" placeholder="Search now" aria-label="search" aria-describedby="search">
+        </div> -->
       </li>
-    <?php else: ?>
-      <li class="kegiatan">
-        <img src="<?=$pathContent?>img/dropdown-list.svg" />
-        <a>Kegiatan</a>
-        <img src="<?=$pathContent?>img/arrow-up.svg" style="float: right; margin-top: -10px" />
-        <ul class="submenu">
-          <?php if ($data['role'] == 1): ?>
-            <li class="registrasi">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>registrasi">Registrasi</a></li>
-          <?php elseif ($data['role'] == 2): ?>
-            <li class="bimbingan">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>bimbingan">Bimbingan</a></li>
-          <?php elseif($data['role'] == 3): ?>
-            <li class="mahasiswa">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>mahasiswa">Mahasiswa</a></li>
-          <?php endif; ?>
-          <?php if ($data['role'] == 1 && isset($bkp_nama)): ?>
-            <li class="logbook">
-              <img src="<?=$pathContent?>img/status-app.svg" />
-              <a href="<?=$pathContent?>log-book">Logbook</a></li>
-            <li class="laporan-akhir">
-              <img src="<?=$pathContent?>img/file-register.svg" />
-              <a href="<?=$pathContent?>laporan">Laporan Akhir</a></li>
-          <?php endif; ?>
-        </ul>
+    </ul>
+    <ul class="navbar-nav navbar-nav-right">
+      <li class="nav-item dropdown mr-1">
+        <!-- <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
+          <i class="mdi mdi-message-text mx-0"></i>
+          <span class="count"></span>
+        </a> -->
+        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
+          <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+          <a class="dropdown-item">
+            <div class="item-thumbnail">
+              <img src="../../images/faces/face4.jpg" alt="image" class="profile-pic">
+            </div>
+            <div class="item-content flex-grow">
+              <h6 class="ellipsis font-weight-normal">David Grey
+              </h6>
+              <p class="font-weight-light small-text text-muted mb-0">
+                The meeting is cancelled
+              </p>
+            </div>
+          </a>
+          <a class="dropdown-item">
+            <div class="item-thumbnail">
+                <img src="../../images/faces/face2.jpg" alt="image" class="profile-pic">
+            </div>
+            <div class="item-content flex-grow">
+              <h6 class="ellipsis font-weight-normal">Tim Cook
+              </h6>
+              <p class="font-weight-light small-text text-muted mb-0">
+                New product launch
+              </p>
+            </div>
+          </a>
+          <a class="dropdown-item">
+            <div class="item-thumbnail">
+                <img src="../../images/faces/face3.jpg" alt="image" class="profile-pic">
+            </div>
+            <div class="item-content flex-grow">
+              <h6 class="ellipsis font-weight-normal"> Johnson
+              </h6>
+              <p class="font-weight-light small-text text-muted mb-0">
+                Upcoming board meeting
+              </p>
+            </div>
+          </a>
+        </div>
       </li>
-    <?php endif; ?>
-    <li class="settings">
-      <img src="<?=$pathContent?>img/settings.svg" />
-      <a>Settings</a></li>
-    <li class="logout">
-      <img src="<?=$pathContent?>img/logout.svg" />
-      <a href="<?=$pathContent?>logout">Logout</a></li>
-  </ul>
-</div>
-
-<div class="right_nav">
-  <a>
-    <img src="<?=$pathContent?>img/Ellipse 1.png" style="height: 20px" />
-    <span class="name"><?=isset($data['nama'])? $data['nama'] : ''?></span></a>
-  <a>
-    <img src="<?=$pathContent?>img/notification.svg" />
-  </a>
-</div>
+      <li class="nav-item dropdown mr-4">
+        <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-toggle="dropdown">
+          <i class="mdi mdi-bell mx-0"></i>
+          <span class="count"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
+          <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+          <a class="dropdown-item">
+            <div class="item-thumbnail">
+              <div class="item-icon bg-success">
+                <i class="mdi mdi-information mx-0"></i>
+              </div>
+            </div>
+            <div class="item-content">
+              <h6 class="font-weight-normal">Application Error</h6>
+              <p class="font-weight-light small-text mb-0 text-muted">
+                Just now
+              </p>
+            </div>
+          </a>
+          <a class="dropdown-item">
+            <div class="item-thumbnail">
+              <div class="item-icon bg-warning">
+                <i class="mdi mdi-settings mx-0"></i>
+              </div>
+            </div>
+            <div class="item-content">
+              <h6 class="font-weight-normal">Settings</h6>
+              <p class="font-weight-light small-text mb-0 text-muted">
+                Private message
+              </p>
+            </div>
+          </a>
+          <a class="dropdown-item">
+            <div class="item-thumbnail">
+              <div class="item-icon bg-info">
+                <i class="mdi mdi-account-box mx-0"></i>
+              </div>
+            </div>
+            <div class="item-content">
+              <h6 class="font-weight-normal">New user registration</h6>
+              <p class="font-weight-light small-text mb-0 text-muted">
+                2 days ago
+              </p>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="nav-item nav-profile dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+          <!-- <img src="../../images/faces/face5.jpg" alt="profile"/> -->
+          <span class="nav-profile-name"><?=$user_nama?></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+          <a class="dropdown-item">
+            <i class="mdi mdi-settings text-primary"></i>
+            Settings
+          </a>
+          <a class="dropdown-item" href="/signin/logout">
+            <i class="mdi mdi-logout text-primary"></i>
+            Logout
+          </a>
+        </div>
+      </li>
+    </ul>
+    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+      <span class="mdi mdi-menu"></span>
+    </button>
+  </div>
+</nav>

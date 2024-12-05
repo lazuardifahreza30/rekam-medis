@@ -17,7 +17,14 @@ class PenggunaController extends Controller
     public function index(Request $req)
     {
         //
-        return view('pengguna');
+        if ($req->session()->has('username')):
+          return view('pengguna', [
+            'user_role' => $req->session()->get('user_jenis'),
+            'user_nama' => $req->session()->get('nama')
+          ]);
+        else:
+          return redirect('/signin');
+        endif;
     }
 
     public function data(Request $req) {
@@ -115,6 +122,33 @@ class PenggunaController extends Controller
         endif;
 
         $response['status'] = $q? 'succ' : 'fail';
+
+        // $to = 'lazuardi.fahreza@widyatama.ac.id';
+        $to = $req->user_email;
+
+        $subject = 'Registrasi';
+
+        $body = '<p>Anda telah berhasil melakukan registrasi, untuk mengakses <b>Rekam Medis Elektronik</b>, silakan masuk menggunakan akun ini.</p>';
+        $body .= '<table class="table table-striped table-bordered" width="100%">';
+        $body .= '<tr>';
+        $body .= '<td>Username</td>';
+        $body .= '<td>'.$req->user_username.'</td>';
+        $body .= '</tr>';
+        $body .= '<tr>';
+        $body .= '<td>Password</td>';
+        $body .= '<td>'.$req->user_password.'</td>';
+        $body .= '</tr>';
+        $body .= '</table>';
+
+        $header  = 'MIME-Version: 1.0' . "\r\n";
+        $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $header .= "To: <$to>" . "\r\n";
+        $header .= 'From: lazuardifahreza853@gmail.com'."\r\n";
+
+        if(mail($to,$subject,$body,$header))
+            $response['status_email'] = "Your Mail is sent successfully.";
+        else
+            $response['status_email'] = "Your Mail is not sent. Try Again.";
       } catch(Exception $e) {
         return response()->json([
           'data' => [],

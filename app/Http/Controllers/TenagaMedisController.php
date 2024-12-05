@@ -14,7 +14,15 @@ class TenagaMedisController extends Controller
     public function index(Request $req)
     {
         //
-        return view('tenaga-medis');
+        if ($req->session()->has('username')):
+          return view('tenaga-medis', [
+            'pasien_id' => $req->session()->get('user_id'),
+            'user_role' => $req->session()->get('user_jenis'),
+            'user_nama' => $req->session()->get('nama')
+          ]);
+        else:
+          return redirect('/signin');
+        endif;
     }
 
     public function data(Request $req) {

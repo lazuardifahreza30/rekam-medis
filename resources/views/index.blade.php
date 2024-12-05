@@ -26,285 +26,84 @@
 <body>
   <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="navbar-brand-wrapper d-flex justify-content-center">
-        <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
-          <!-- <a class="navbar-brand brand-logo" href="../../index.html"><img src="../../images/logo.svg" alt="logo"/></a> -->
-          <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
-          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="mdi mdi-sort-variant"></span>
-          </button>
-        </div>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <ul class="navbar-nav mr-lg-4 w-100">
-          <li class="nav-item nav-search d-none d-lg-block w-100">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="search">
-                  <i class="mdi mdi-magnify"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" placeholder="Search now" aria-label="search" aria-describedby="search">
-            </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown mr-1">
-            <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
-              <i class="mdi mdi-message-text mx-0"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                    <img src="../../images/faces/face4.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="item-content flex-grow">
-                  <h6 class="ellipsis font-weight-normal">David Grey
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    The meeting is cancelled
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                    <img src="../../images/faces/face2.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="item-content flex-grow">
-                  <h6 class="ellipsis font-weight-normal">Tim Cook
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    New product launch
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                    <img src="../../images/faces/face3.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="item-content flex-grow">
-                  <h6 class="ellipsis font-weight-normal"> Johnson
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    Upcoming board meeting
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item dropdown mr-4">
-            <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center notification-dropdown" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="mdi mdi-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                  <div class="item-icon bg-success">
-                    <i class="mdi mdi-information mx-0"></i>
-                  </div>
-                </div>
-                <div class="item-content">
-                  <h6 class="font-weight-normal">Application Error</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                  <div class="item-icon bg-warning">
-                    <i class="mdi mdi-settings mx-0"></i>
-                  </div>
-                </div>
-                <div class="item-content">
-                  <h6 class="font-weight-normal">Settings</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                  <div class="item-icon bg-info">
-                    <i class="mdi mdi-account-box mx-0"></i>
-                  </div>
-                </div>
-                <div class="item-content">
-                  <h6 class="font-weight-normal">New user registration</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="../../images/faces/face5.jpg" alt="profile"/>
-              <span class="nav-profile-name">Louis Barnett</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="mdi mdi-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="mdi mdi-logout text-primary"></i>
-                Logout
-              </a>
-            </div>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="mdi mdi-menu"></span>
-        </button>
-      </div>
-    </nav>
+    <?php include("php/header.php"); ?>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:../../partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="mdi mdi-home menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="mdi mdi-book menu-icon"></i>
-              <span class="menu-title">Data</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="user">User</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">Pasien</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../../pages/forms/basic_elements.html">
-              <i class="mdi mdi-calendar menu-icon"></i>
-              <span class="menu-title">Jadwal Kunjungan</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <?php include("php/sidebar.php"); ?>
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Pasien</h4>
-                  <p class="card-description"></p>
-                  <div class="pull-right">
-                    <!-- <button type="button" class="btn btn-sm btn-primary btn-fw" data-fancybox data-src="#popup-barang"><i class="mdi mdi-plus-circle"></i> Tambah</button> -->
-                    <button type="button" class="btn btn-sm btn-primary btn-fw" data-toggle="modal" data-target="#popup-barang"><i class="mdi mdi-plus-circle"></i> Tambah</button>
-                  </div>
-                  <div class="table-responsive">
-                    <table id="datatable" class="table table-hover table-striped" width="100%">
-                      <thead>
-                        <tr class="btn-primary">
-                          <th>No.</th>
-                          <th>Aksi</th>
-                          <th>Nama</th>
-                          <th>Jenis Kelamin</th>
-                          <th>Tanggal Lahir</th>
-                          <th>Alamat</th>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
+                <div class="card-body dashboard-tabs p-0">
 
-                  <div id="popup-barang" class="modal fade">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h6>Pasien</h6>
-                          <a data-dismiss="modal">&times;</a>
+                  <div class="tab-content py-0 px-0">
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                      <div class="d-flex flex-wrap justify-content-xl-between">
+                        <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                          <i class="mdi mdi-eye mr-3 icon-lg text-success"></i>
+                          <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Total Pasien</small>
+                            <h5 id="total_pasien" class="mr-2 mb-0"></h5>
+                          </div>
                         </div>
-                        <div class="modal-body" style="max-height: 400px; overflow: auto; margin: 10px 15px">
-                          <form id="form-barang" class="skin-default custom-scrollbar">
-                            <!-- <div class="mt-10 grid grid-cols-12 gap-x-6 gap-y-2 sm:grid-cols-12"> -->
-                              <input type="hidden" id="pasien_id" />
-                              <div class="sm:col-span-12">
-                                <label for="pasien_nama" class="block text-sm font-medium leading-6 text-gray-900">Nama</label>
-                                <div class="mt-2">
-                                  <input type="text" id="pasien_nama" name="kode_fakultas" class="form-control" />
-                                </div>
-                              </div>
-                              <div class="sm:col-span-12">
-                                <label for="pasien_jenis_kelamin" class="block text-sm font-medium leading-6 text-gray-900">Jenis Kelamin</label>
-                                <div class="mt-2">
-                                  <label>
-                                    <input type="radio" name="pasien_jenis_kelamin" id="pasien_jenis_kelamin_L" class="" value="L" checked />
-                                    <span>Laki - laki</span>
-                                  </label>
-                                  <label>
-                                    <input type="radio" name="pasien_jenis_kelamin" id="pasien_jenis_kelamin_P" class="" value="P" />
-                                    <span>Perempuan</span>
-                                  </label>
-                                </div>
-                              </div>
-                              <div class="sm:col-span-12">
-                                <label for="pasien_tanggal_lahir" class="block text-sm font-medium leading-6 text-gray-900">Tanggal Lahir</label>
-                                <div class="mt-2">
-                                  <input type="date" id="pasien_tanggal_lahir" class="form-control" />
-                                </div>
-                              </div>
-                              <div class="sm:col-span-12">
-                                <label for="pasien_alamat" class="block text-sm font-medium leading-6 text-gray-900">Alamat</label>
-                                <div class="mt-2">
-                                  <textarea id="pasien_alamat" class="form-control"></textarea>
-                                </div>
-                              </div>
-                              <div class="sm:col-span-12">
-                                <label for="pasien_no_handphone" class="block text-sm font-medium leading-6 text-gray-900">No. Handphone</label>
-                                <div class="mt-2">
-                                  <input type="text" id="pasien_no_handphone" name="kode_fakultas" class="form-control" maxlength="13" />
-                                </div>
-                              </div>
-                              <div class="sm:col-span-12">
-                                <label for="pasien_email" class="block text-sm font-medium leading-6 text-gray-900">E-mail</label>
-                                <div class="mt-2">
-                                  <input type="text" id="pasien_email" name="kode_fakultas" class="form-control form-control-sm" />
-                                </div>
-                              </div>
-
-                            <!-- </div> -->
-                          </form>
+                        <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                          <i class="mdi mdi-download mr-3 icon-lg text-warning"></i>
+                          <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Total Kunjungan</small>
+                            <h5 id="total_kunjungan" class="mr-2 mb-0"></h5>
+                          </div>
                         </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-sm btn-primary btn-rounded" onclick="simpan()"><i class="mdi mdi-content-save"></i> Simpan</button>
-                          <button type="button" class="btn btn-sm btn-secondary btn-rounded" data-dismiss="modal"><i class="mdi mdi-recycle"></i> Batal</button>
+                        <div class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                          <i class="mdi mdi-flag mr-3 icon-lg text-danger"></i>
+                          <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Total Kunjungan (bulan ini)</small>
+                            <h5 id="total_kunjungan_bulan_ini" class="mr-2 mb-0"></h5>
+                          </div>
                         </div>
                       </div>
                     </div>
+
                   </div>
-
-                  <div id="popup-barang2" style="display: none">
-                    <h2>Pasien</h2>
-
-                    <div class="flex items-center justify-end gap-x-6" style="position: relative; top: 25px">
-
-                    </div>
-                  </div>
-
-
                 </div>
               </div>
             </div>
 
+          </div>
 
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-title">Grafik Kunjungan</p>
+                  <canvas id="pieChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-title">Kunjungan terakhir</p>
+                  <div class="table-responsive">
+                    <table id="datatable" class="table table-sm table-striped">
+                      <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Pasien</th>
+                            <th>Waktu</th>
+                            <th>Keluhan</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <!-- content-wrapper ends -->
@@ -338,7 +137,9 @@
   <script src="plugins/fancybox/dist/jquery.fancybox.min.js"></script>
   <script src="plugins/jquery-custom-scrollbar/jquery.custom-scrollbar.js"></script>
   <script src="plugins/datatables/datatables/js/jquery.dataTables.min.js"></script>
+  <script src="vendors/chart.js/Chart.min.js"></script>
   <script>
+  var json_datatable = null
   $(document).ready(function(e) {
     loadData()
   })
@@ -358,67 +159,6 @@
         $('#datatable').find('td').addClass('border border-slate-300')
         $('#datatable').find('.paginate_button.current').css('color', '#fff !important')
 
-        $('#datatable').find('.actionUbah').on('click', function(e) {
-          let id = $(this).attr('data-pasien')
-
-          $.ajax({
-            url: 'barang/getData',
-            type: 'GET',
-            data: {
-              pasien_id: id
-            },
-            dataType: 'JSON',
-            success: function(response) {
-              let filter = []
-              let data = Object.entries(response[0])
-
-              // console.log(data)
-
-              $.each($('#form-barang').find('input, textarea'), (i, item) => {
-                if (item.type != 'file') {
-                  filter = data.filter((item2) => (item2[0] == item.id))
-
-                  // console.log(filter)
-
-
-                  if (filter.length > 0)
-                    item.value = filter[0][1]
-
-                  // if (item.type == 'radio')
-                    // $('#'+item.name+'_'+filter[0][1]+'').attr('checked', true)
-                }
-              })
-
-              // $.each($('#mitra_bkp_id').find('option'), (i, item) => {
-              //   if (item.value == response[0].mitra_bkp_id)
-              //     item.selected = true
-              // })
-
-              // $('#modal-barang').modal('show')
-            }
-          })
-        })
-
-        $('#datatable').find('.actionHapus').on('click', function(e) {
-          let id = $(this).attr('data-pasien')
-
-          $.ajax({
-            url: 'barang/hapus',
-            type: 'POST',
-            data: { pasien_id: id },
-            dataType: 'JSON',
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-              if (response.status == "succ")
-                loadData()
-
-              // $('#modal-barang').modal('hide')
-            }
-          })
-        })
-
         $('#form-search').find('input').on('keyup', function(e) {
           clearTimeout(timeSearch)
           timeSearch = setTimeout(function() {
@@ -429,13 +169,14 @@
       },
       bFilter: true,
       processing: true,
+      // ordering: false,
       serverSide: true,
       searching: false,
       lengthChange: true,
       order: [
-        [1, "asc"]
+        [1, "desc"]
       ],
-      sAjaxSource: "barang/data",
+      sAjaxSource: "/data",
       fnServerData: function(sSource, aoData, fnCallback) {
         // let s_data = customize({
         //   role: 'search',
@@ -456,48 +197,65 @@
             fnCallback(data)
 
             json_datatable = data.aaData;
+
+            $('#total_pasien').html(data.total.pasien)
+            $('#total_kunjungan').html(data.total.kunjungan)
+            $('#total_kunjungan_bulan_ini').html(data.total.kunjungan_bulan_ini)
+
+            var doughnutPieData = {
+              datasets: [{
+                data: [data.total.kunjungan_sehat, data.total.kunjungan_sakit],
+                backgroundColor: [
+                  'rgba(0, 255, 0, 0.5)',
+                  'rgba(255, 255, 0, 0.5)',
+                  'rgba(255, 206, 86, 0.5)',
+                  'rgba(75, 192, 192, 0.5)',
+                  'rgba(153, 102, 255, 0.5)',
+                  'rgba(255, 159, 64, 0.5)'
+                ],
+                borderColor: [
+                  'rgba(0, 255, 0,1)',
+                  'rgba(255, 255, 0, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+                ],
+              }],
+
+              // These labels appear in the legend and in the tooltips when hovering different arcs
+              labels: [
+                'Kunjungan Sehat',
+                'Kunjungan Sakit',
+              ]
+            };
+            var doughnutPieOptions = {
+              responsive: true,
+              animation: {
+                animateScale: true,
+                animateRotate: true
+              }
+            };
+            var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+            var pieChart = new Chart(pieChartCanvas, {
+              type: 'pie',
+              data: doughnutPieData,
+              options: doughnutPieOptions
+            });
           }
         })
       },
       columns: [
         { data: 'no', sortable: false },
-        {
-          data: null, sortable: false,
-          render: function(data) {
-            let _div = document.createElement('div'),
-            _a = document.createElement('a'),
-            _i = document.createElement('i')
-
-            _i.className = "mdi mdi-pencil"
-            _a.appendChild(_i)
-            _a.className = "actionUbah btn-primary"
-            _a.dataset.fancybox = ''
-            _a.dataset.src = "#popup-barang"
-            _a.dataset.pasien = data.pasien_id
-            _div.appendChild(_a)
-
-            _i = document.createElement('i')
-            _i.className = "mdi mdi-delete"
-            _a = document.createElement('a')
-            _a.appendChild(_i)
-            _a.className = "actionHapus btn-danger"
-            _a.dataset.pasien = data.pasien_id
-            _div.appendChild(_a)
-            // _div.style.display = "grid"
-
-            return _div.outerHTML
-          }
-        },
-        { data: 'pasien_nama', name: 'pasien_nama' },
-        { data: 'pasien_jenis_kelamin', name: 'pasien_jenis_kelamin' },
-        { data: 'pasien_tanggal_lahir', name: 'pasien_tanggal_lahir' },
-        { data: 'pasien_alamat', name: 'pasien_alamat' }
+        { data: 'pasien_nama', name: 'pasien_nama', sortable: false },
+        { data: 'jk_created_date', name: 'jk_created_date', sortable: false },
+        { data: 'jk_keluhan', name: 'jk_keluhan', sortable: false }
       ],
-      "dom": '<"pull-left col-md-3 col-sm-3"l><"pull-right mt-10"B>rt<"pull-left col-md-4"i><"pull-right"p>',
+      "dom": '<"pull-left col-md-3 col-sm-3"><"pull-right mt-10"B>rt<"pull-left col-md-4"><"pull-right">',
       oLanguage: {
   			sLengthMenu: "Menampilkan _MENU_ baris per halaman",
   			sLoadingRecords: 'Silakan Tunggu',
-  			sProcessing: "<i class='fa fa-refresh fa-spin'></i> Data Sedang Diproses",
+  			sProcessing: "<i class='mdi mdi-refresh mdi-spin'></i> Data Sedang Diproses",
   			sZeroRecords: "Data Tidak Ditemukan",
   			sSearch: "Pencarian Data",
   			sInfo: "Tampil dari _START_ Sampai _END_ Dari _TOTAL_ Baris Data",

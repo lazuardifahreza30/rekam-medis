@@ -14,7 +14,15 @@ class DokterController extends Controller
     public function index(Request $req)
     {
         //
-        return view('dokter');
+        if ($req->session()->has('username')):
+          return view('dokter', [
+            'pasien_id' => $req->session()->get('user_id'),
+            'user_role' => $req->session()->get('user_jenis'),
+            'user_nama' => $req->session()->get('nama')
+          ]);
+        else:
+          return redirect('/signin');
+        endif;
     }
 
     public function data(Request $req) {
@@ -74,8 +82,8 @@ class DokterController extends Controller
 
         // $users = RequestMahasiswa::all();
         $data = Dokter::select($Columns)
-                    ->where('dokter_id', '=', $req->dokter_id)
-                    ->get();
+                      ->where('dokter_id', '=', $req->dokter_id)
+                      ->get();
       } catch(Exception $e) {
         return response()->json([
           'data' => [],

@@ -14,7 +14,14 @@ class PasienController extends Controller
     public function index(Request $req)
     {
         //
-        return view('pasien');
+        if ($req->session()->has('username')):
+          return view('pasien', [
+            'user_role' => $req->session()->get('user_jenis'),
+            'user_nama' => $req->session()->get('nama')
+          ]);
+        else:
+          return redirect('/signin');
+        endif;
     }
 
     public function data(Request $req) {
