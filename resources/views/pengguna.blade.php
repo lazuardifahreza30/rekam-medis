@@ -311,9 +311,12 @@
 
               $.ajax({
                 url: 'pengguna/getData',
-                type: 'GET',
+                type: 'POST',
                 data: {
                   user_id: id
+                },
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 dataType: 'JSON',
                 success: function(response) {

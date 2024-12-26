@@ -22,6 +22,11 @@
   <link rel="stylesheet" href="css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="images/favicon.png" />
+  <style>
+  #modal-detail .modal-dialog .modal-content .modal-footer button {
+    transform: scale(.85);
+  }
+  </style>
 </head>
 
 <body>
@@ -126,6 +131,40 @@
                     </div>
                   </div>
 
+                  <div id="modal-detail" class="modal fade">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4>Riwayat Rekam Medis</h4>
+                          <a data-dismiss="modal">&times;</a>
+                        </div>
+                        <div class="modal-body" style="margin: 10px 15px">
+                          <div class="form-group row">
+                            <label class="col-sm-4 control-label">Nama Pasien</label>
+                            <div class="col-sm-8">
+                              <input type="text" class="form-control form-control-sm" id="pasien_nama" readonly />
+                            </div>
+                          </div>
+                          <div class="table-responsive">
+                            <table id="datatable2" class="table table-sm table-bordered table-striped" width="100%">
+                              <thead>
+                                <tr>
+                                  <th class="btn-primary">No.</th>
+                                  <th class="btn-primary">Waktu</th>
+                                  <th class="btn-primary">Jenis Kunjungan</th>
+                                  <th class="btn-primary">Keluhan</th>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-sm btn-secondary btn-rounded" data-dismiss="modal"><i class="mdi mdi-recycle"></i> Kembali</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div id="popup-barang2" style="display: none">
                     <h2>Pasien</h2>
 
@@ -175,6 +214,7 @@
   <script src="plugins/jquery-custom-scrollbar/jquery.custom-scrollbar.js"></script>
   <script src="plugins/datatables/datatables/js/jquery.dataTables.min.js"></script>
   <script>
+  var json_datatable = null, json_datatable2 = null
   $(document).ready(function(e) {
     loadData()
   })
@@ -237,9 +277,12 @@
 
               $.ajax({
                 url: 'pasien/getData',
-                type: 'GET',
+                type: 'POST',
                 data: {
                   pasien_id: id
+                },
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 dataType: 'JSON',
                 success: function(response) {
@@ -273,21 +316,55 @@
               })
             })
 
+            $('#datatable').find('.actionDetail').on('click', function(e) {
+              // $('#modal-detail').modal('show')
+
+              $('#datatable2').DataTable()
+            })
+
             $('#datatable').find('.actionHapus').on('click', function(e) {
               let id = $(this).attr('data-pasien')
 
-              $.ajax({
-                url: 'pasien/hapus',
-                type: 'DELETE',
-                data: { pasien_id: id },
-                dataType: 'JSON',
-                headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                  if (response.status == "succ")
-                    loadData()
-                }
+              Swal.fire({
+        				title: 'Konfirmasi..',
+        				html: 'Apakah Anda Yakin, Ingin <b><font color="red">Menghapus</b></font> Data Tersebut?!',
+        				icon: 'warning',
+        				showCancelButton: true,
+        				confirmButtonColor: '#2962FF',
+        				cancelButtonColor: '#BBB',
+        				confirmButtonText: 'Ya',
+        				cancelButtonText: 'Tidak'
+              }).then((result) => {
+                if (result.value)
+                  $.ajax({
+                    url: 'pasien/hapus',
+                    type: 'DELETE',
+                    data: { pasien_id: id },
+                    dataType: 'JSON',
+                    headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                      if (response.status == "succ")
+                        Swal.fire({
+                          title: 'Success!',
+                          html: 'Berhasil menghapus data.<br /><br />',
+                          icon: 'success',
+                          showConfirmButton: false,
+                          timer: 1500
+                        }).then(() => {
+                          loadData()
+                        })
+                      else
+                        Swal.fire({
+                          title: 'Failed!',
+                          html: 'Gagal menghapus data, silakan coba lagi.<br /><br />',
+                          icon: 'error',
+                          showConfirmButton: false,
+                          timer: 5000
+                        })
+                    }
+                  })
               })
             })
           }
@@ -313,12 +390,22 @@
             _div.appendChild(_a)
 
             _i = document.createElement('i')
-            _i.className = "mdi mdi-delete"
+            _i.className = "mdi mdi-eye"
             _a = document.createElement('a')
             _a.appendChild(_i)
-            _a.className = "actionHapus btn-danger"
+            _a.className = "actionDetail btn-secondary"
+            _a.dataset.toggle = 'modal'
+            _a.dataset.target = '#modal-detail'
             _a.dataset.pasien = data.pasien_id
             _div.appendChild(_a)
+
+            // _i = document.createElement('i')
+            // _i.className = "mdi mdi-delete"
+            // _a = document.createElement('a')
+            // _a.appendChild(_i)
+            // _a.className = "actionHapus btn-danger"
+            // _a.dataset.pasien = data.pasien_id
+            // _div.appendChild(_a)
             // _div.style.display = "grid"
 
             return _div.outerHTML

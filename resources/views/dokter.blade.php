@@ -18,6 +18,7 @@
   <!-- endinject -->
   <!-- <link href="plugins/tailwindcss/tailwind.min.css" rel="stylesheet" /> -->
   <!-- inject:css -->
+  <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css" />
   <link rel="stylesheet" href="css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="images/favicon.png" />
@@ -169,6 +170,7 @@
   <!-- End custom js for this page-->
 
   <script src="plugins/jquery/jquery-3.5.1.min.js"></script>
+  <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
   <script src="plugins/fancybox/dist/jquery.fancybox.min.js"></script>
   <script src="plugins/jquery-custom-scrollbar/jquery.custom-scrollbar.js"></script>
   <script src="plugins/datatables/datatables/js/jquery.dataTables.min.js"></script>
@@ -235,9 +237,12 @@
 
               $.ajax({
                 url: 'dokter/getData',
-                type: 'GET',
+                type: 'POST',
                 data: {
                   dokter_id: id
+                },
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 dataType: 'JSON',
                 success: function(response) {
@@ -276,18 +281,46 @@
             $('#datatable').find('.actionHapus').on('click', function(e) {
               let id = $(this).attr('data-dokter')
 
-              $.ajax({
-                url: 'dokter/hapus',
-                type: 'DELETE',
-                data: { dokter_id: id },
-                dataType: 'JSON',
-                headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                  if (response.status == "succ")
-                    loadData()
-                }
+              Swal.fire({
+        				title: 'Konfirmasi..',
+        				html: 'Apakah Anda Yakin, Ingin <b><font color="red">Menghapus</b></font> Data Tersebut?!',
+        				icon: 'warning',
+        				showCancelButton: true,
+        				confirmButtonColor: '#2962FF',
+        				cancelButtonColor: '#BBB',
+        				confirmButtonText: 'Ya',
+        				cancelButtonText: 'Tidak'
+              }).then((result) => {
+                if (result.value)
+                  $.ajax({
+                    url: 'dokter/hapus',
+                    type: 'DELETE',
+                    data: { dokter_id: id },
+                    dataType: 'JSON',
+                    headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                      if (response.status == "succ")
+                        Swal.fire({
+                          title: 'Success!',
+                          html: 'Berhasil menghapus data.<br /><br />',
+                          icon: 'success',
+                          showConfirmButton: false,
+                          timer: 1500
+                        }).then(() => {
+                          loadData()
+                        })
+                      else
+                        Swal.fire({
+                          title: 'Failed!',
+                          html: 'Gagal menghapus data, silakan coba lagi.<br /><br />',
+                          icon: 'error',
+                          showConfirmButton: false,
+                          timer: 5000
+                        })
+                    }
+                  })
               })
             })
           }

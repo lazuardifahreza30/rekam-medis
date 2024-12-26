@@ -69,6 +69,28 @@ class SignInController extends Controller
       endif;
     }
 
+    public function gantiPassword(Request $req) {
+      return view('ganti-password');
+    }
+
+    public function periksaAkun(Request $req) {
+      $q = Pengguna::select(['user_id'])
+                    ->join('v_user_all', 'v_user_id', 'user_id')
+                    ->where('user_username', '=', $req->user_username)
+                    ->orWhere('user_email', $req->user_username)
+                    ->get();
+
+      // $qByUsername = $pengguna->where('user_username', '=', $req->user_username)->get();
+      // $q = $qByUsername;
+
+      // if (count($qByUsername) == 0):
+      //   $qByEmail = $pengguna->orWhere('user_email', $req->user_username)->get();
+      //   $q = $qByEmail;
+      // endif;
+
+      return json_encode(array("status" => count($q) > 0? 'succ' : 'fail', "data" => $req->user_username));
+    }
+
     public function login(Request $req) {
       $columns = array('user_id', 'user_jenis', 'user_nama', 'user_username', 'user_email', 'user_master_id');
 

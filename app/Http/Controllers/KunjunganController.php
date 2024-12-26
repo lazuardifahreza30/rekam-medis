@@ -30,9 +30,12 @@ class KunjunganController extends Controller
       try {
         $columns = array('jk_id', 'jk_pasien_id', 'pasien_nama', 'jk_dokter_id', 'dokter_nama', 'jk_no_antrian', 'jk_diagnosa', 'jk_created_date');
         $ColumnsWhere = array('', 'jk_no_antrian', 'jk_created_date', 'pasien_nama', 'dokter_nama');
+
+        $fieldCond = $req->session()->get('user_jenis') == 3? 'jk_pasien_id' : 'jk_dokter_id';
         $data = Kunjungan::select($columns)
                           ->join('m_dokter', 'dokter_id', 'jk_dokter_id')
                           ->join('m_pasien', 'pasien_id', 'jk_pasien_id')
+                          ->where($fieldCond, '=', $req->session()->get('user_master_id'))
                           ->orderBy($ColumnsWhere[$_POST['iSortCol_0']], $_POST['sSortDir_0'])
                           ->offset($_POST['iDisplayStart'])
                           ->limit($_POST['iDisplayLength'])

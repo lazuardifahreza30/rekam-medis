@@ -30,22 +30,28 @@
                 <!-- <img src="images/logo.svg" alt="logo"> -->
               </div>
               <h4>Rekam Medis Elektronik</h4>
-              <h6 class="font-weight-light">Masuk untuk melanjutkan.</h6>
+              <h6 class="font-weight-light"></h6>
               <!-- <h4>Let's get started</h4> -->
               <!-- <h6 class="font-weight-light">Sign in to continue.</h6> -->
 
-              <div id="status-login" style="display: none">
-                <label class="alert alert-success mt-3"><span>Berhasil masuk.</span></label>
+              <div id="status-change_password" style="display: none">
+                <label class="alert alert-success mt-3"><span>Berhasil mengganti password.</span></label>
               </div>
-              <form id="form-login" class="pt-3">
+              <form id="form-change_password" class="pt-3">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-lg" id="user_username" placeholder="Username" />
+                  <input type="text" class="form-control form-control-md" id="user_username" placeholder="Username" />
                 </div>
-                <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" id="user_password" id="user_password" placeholder="Password" />
+                <div class="formInput-password">
+                  <div class="form-group">
+                    <input type="password" class="form-control form-control-md" id="user_password" placeholder="Password" />
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control form-control-md" id="user_re_password" placeholder="Re Password" />
+                  </div>
                 </div>
                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" onclick="login()" href="javascript:;">Masuk</a>
+                  <a class="btn btn-block btn-primary btn-md melanjutkan" onclick="periksaAkun()" href="javascript:;">Lanjutkan</a>
+                  <a class="btn btn-block btn-primary btn-md gantiPassword" onclick="gantiPassword()" href="javascript:;">Ganti Password</a>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
@@ -54,7 +60,7 @@
                       Keep me signed in
                     </label> -->
                   </div>
-                  <a href="./ganti-password" class="auth-link text-black">Lupa password?</a>
+                  <!-- <a href="#" class="auth-link text-black">Forgot password?</a> -->
                 </div>
                 <div class="mb-2">
                   <!-- <button type="button" class="btn btn-block btn-facebook auth-form-btn">
@@ -62,7 +68,7 @@
                   </button> -->
                 </div>
                 <div class="text-center mt-4 font-weight-light">
-                  Belum memiliki akun? <a href="./registrasi" class="text-primary">Registrasi</a>
+
                 </div>
               </form>
             </div>
@@ -83,17 +89,21 @@
   <script src="js/template.js"></script>
   <!-- endinject -->
   <script>
-  $('#user_password').on('keydown', function(e) {
-    if (e.keyCode == 13)
-      login()
+  $(document).ready(function(e) {
+    $('.formInput-password, .gantiPassword').css('display', 'none')
+
+    $('#user_re_password').on('keydown', function(e) {
+      if (e.keyCode == 13)
+      gantiPassword()
+    })
   })
 
-  function login() {
+  function periksaAkun() {
     let data = {},
         empty = []
 
-    $.each($('#form-login').find('input'), (i, item) => {
-      if (item.type == 'text' || item.type == 'password')
+    $.each($('#form-change_password').find('input'), (i, item) => {
+      if (item.type == 'text')
         data[item.id] = item.value
 
       if (data[item.id] == '' && item.type != 'hidden')
@@ -102,6 +112,56 @@
 
     // console.log(data, empty)
     // return false
+
+    $.ajax({
+      url: '/signin/periksaAkun',
+      type: 'POST',
+      data: data,
+      dataType: 'json',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function(response) {
+        let _status = $('#status-change_password')
+        if (response.status == 'succ')
+          (function() {
+            if (_status.find('label').hasClass('alert-danger'))
+              _status.find('label').removeClass('alert-danger')
+
+            _status.find('label').addClass('alert-success')
+            _status.find('span').html('Akun ditemukan.')
+            _status.css('display', 'block')
+
+            $('.melanjutkan').css('display', 'none')
+            $('.formInput-password, .gantiPassword').css('display', 'block')
+          }())
+        else
+          (function() {
+            if (_status.find('label').hasClass('alert-success'))
+              _status.find('label').removeClass('alert-success')
+
+            _status.find('label').addClass('alert-danger')
+            _status.find('span').html('Akun tidak ditemukan.')
+            _status.css('display', 'block')
+          }())
+      }
+    })
+  }
+
+  function gantiPassword() {
+    let data = {},
+        empty = []
+
+    $.each($('#form-change_password').find('input'), (i, item) => {
+      if (item.type == 'text' || item.type == 'password')
+        data[item.id] = item.value
+
+      if (data[item.id] == '' && item.type != 'hidden')
+        empty.push(item.id)
+    })
+
+    console.log(data, empty)
+    return false
 
     $.ajax({
       url: '/signin/login',

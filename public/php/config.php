@@ -2,7 +2,7 @@
 class config {
   private $data = array(), $acc = array();
   function connect() {
-    return mysqli_connect("localhost", "root", "", "db_mbkm");
+    return mysqli_connect("localhost", "root", "", "db_rekam_medis");
   }
 
   function exec($query) {
