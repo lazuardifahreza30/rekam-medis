@@ -21,7 +21,7 @@ dist/
 
 # Maven
 target/
-dist/
+# dist/
 
 # JetBrains IDE
 .idea/
@@ -47,4 +47,3 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
-
