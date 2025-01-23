@@ -30,6 +30,8 @@ while($counter < 4):
                             $join, "", $pagination);
   // print(json_encode($data));
 
+  sleep(60);
+
   if (count($data) > 0):
     $to = $data[0]['pasien_email'];
 
@@ -52,7 +54,52 @@ while($counter < 4):
     echo "\nTo: ".$data[0]['pasien_email'];
     echo "\nStatus: ".$response['status_email'];
   endif;
-  sleep(40);
+
+  if (count($data) == 2):
+    $to = $data[1]['pasien_email'];
+
+    $subject = 'Pengingat';
+
+    $body = '<p>Saat ini no. antrian sudah mencapai '.$data[0]['jk_no_antrian'].', Harap segera bersiap ke Ruang Dokter setelah pasien dengan nomor antrian '.$data[0]['jk_no_antrian'].' selesai diperiksa.</p>';
+
+    $header  = 'MIME-Version: 1.0' . "\r\n";
+    $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $header .= "To: <$to>" . "\r\n";
+    $header .= 'From: lazuardifahreza853@gmail.com'."\r\n";
+
+    if(mail($to,$subject,$body,$header)):
+      $response['status_email'] = "Your Mail is sent successfully.";
+    else:
+      $response['status_email'] = "Your Mail is not sent. Try Again.";
+    endif;
+
+    echo "\nFrom: lazuardifahreza853@gmail.com";
+    echo "\nTo: ".$data[1]['pasien_email'];
+    echo "\nStatus: ".$response['status_email'];
+  endif;
+
+  if (count($data) == 3):
+    $to = $data[2]['pasien_email'];
+
+    $subject = 'Pengingat';
+
+    $body = '<p>Saat ini no. antrian sudah mencapai '.$data[0]['jk_no_antrian'].', Harap segera bersiap ke Ruang Dokter setelah pasien dengan nomor antrian '.$data[0]['jk_no_antrian'].' selesai diperiksa.</p>';
+
+    $header  = 'MIME-Version: 1.0' . "\r\n";
+    $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $header .= "To: <$to>" . "\r\n";
+    $header .= 'From: lazuardifahreza853@gmail.com'."\r\n";
+
+    if(mail($to,$subject,$body,$header)):
+      $response['status_email'] = "Your Mail is sent successfully.";
+    else:
+      $response['status_email'] = "Your Mail is not sent. Try Again.";
+    endif;
+
+    echo "\nFrom: lazuardifahreza853@gmail.com";
+    echo "\nTo: ".$data[2]['pasien_email'];
+    echo "\nStatus: ".$response['status_email'];
+  endif;
 
   if ($counter == 3)
     $counter = 0;

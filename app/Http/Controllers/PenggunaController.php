@@ -34,11 +34,20 @@ class PenggunaController extends Controller
 
         // $users = RequestMahasiswa::all();
         $data = Pengguna::select($Columns)
-                    ->join('v_user_all', 'v_user_id', 'user_id')
-                    ->orderBy($ColumnsWhere[$_POST['iSortCol_0']], $_POST['sSortDir_0'])
-                    ->offset($_POST['iDisplayStart'])
-                    ->limit($_POST['iDisplayLength'])
-                    ->get();
+                    ->join('v_user_all', 'v_user_id', 'user_id');
+
+        if (isset($_POST['sSearch_0']) && $_POST['sSearch_0'] != ''):
+          $data = $data->where('user_nama', 'like', $_POST['sSearch_0'].'%');
+        endif;
+
+        if (isset($_POST['sSearch_1']) && $_POST['sSearch_1'] != ''):
+          $data = $data->where('user_jenis', 'like', $_POST['sSearch_1']);
+        endif;
+
+        $data = $data->orderBy($ColumnsWhere[$_POST['iSortCol_0']], $_POST['sSortDir_0'])
+                     ->offset($_POST['iDisplayStart'])
+                     ->limit($_POST['iDisplayLength'])
+                     ->get();
 
         for ($i = 0; $i < count($data); $i++)
           $data[$i]['no'] = $i + 1;

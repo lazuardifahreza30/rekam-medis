@@ -43,21 +43,21 @@
                     <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
                       <div class="d-flex flex-wrap justify-content-xl-between">
                         <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-eye mr-3 icon-lg text-success"></i>
+                          <i class="mdi mdi-account mr-3 icon-lg text-warning"></i>
                           <div class="d-flex flex-column justify-content-around">
                             <small class="mb-1 text-muted">Total Pasien</small>
                             <h5 id="total_pasien" class="mr-2 mb-0"></h5>
                           </div>
                         </div>
                         <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-download mr-3 icon-lg text-warning"></i>
+                          <i class="mdi mdi-human-greeting mr-3 icon-lg text-success"></i>
                           <div class="d-flex flex-column justify-content-around">
                             <small class="mb-1 text-muted">Total Kunjungan</small>
                             <h5 id="total_kunjungan" class="mr-2 mb-0"></h5>
                           </div>
                         </div>
                         <div class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-flag mr-3 icon-lg text-danger"></i>
+                          <i class="mdi mdi-account-check mr-3 icon-lg text-success"></i>
                           <div class="d-flex flex-column justify-content-around">
                             <small class="mb-1 text-muted">Total Kunjungan (bulan ini)</small>
                             <h5 id="total_kunjungan_bulan_ini" class="mr-2 mb-0"></h5>
@@ -85,7 +85,7 @@
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Bar chart</h4>
+                  <h4 class="card-title">Grafik Kunjungan Bulanan</h4>
                   <canvas id="barChart"></canvas>
                 </div>
               </div>
@@ -101,10 +101,10 @@
                     <table id="datatable" class="table table-sm table-striped">
                       <thead>
                         <tr>
-                            <th>No.</th>
-                            <th>Pasien</th>
-                            <th>Waktu</th>
-                            <th>Keluhan</th>
+                            <th class="btn-primary">No.</th>
+                            <th class="btn-primary">Pasien</th>
+                            <th class="btn-primary">Waktu</th>
+                            <th class="btn-primary">Keluhan</th>
                         </tr>
                       </thead>
                     </table>
@@ -252,10 +252,10 @@
             })
 
             var data = {
-              labels: ["September", "Oktober", "Nopember", "Desember"],
+              labels: ["Januari", "Februari", "Maret", "April"],
               datasets: [{
                 label: 'Jumlah Kunjugan',
-                data: [0, 0, 0, data.total.kunjungan_bulan_ini],
+                data: [data.total.kunjungan_bulan_ini, 0, 0, 0],
                 backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',

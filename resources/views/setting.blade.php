@@ -48,26 +48,37 @@
                     <div class="form-group row">
                       <label for="user_nama" class="col-sm-3 col-form-label">Nama</label>
                       <div class="col-sm-9">
-                        <input type="text" class="form-control" id="user_nama" placeholder="Nama">
+                        <input type="text" class="form-control" id="user_nama" placeholder="Nama" readonly />
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="user_email" class="col-sm-3 col-form-label">Email</label>
                       <div class="col-sm-9">
-                        <input type="email" class="form-control" id="user_email" placeholder="Email">
+                        <input type="email" class="form-control" id="user_email" placeholder="Email" readonly />
                       </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row formInput-user_no_handphone">
                       <label for="user_no_handphone" class="col-sm-3 col-form-label">No. Handphone</label>
                       <div class="col-sm-9">
-                        <input type="text" class="form-control" id="user_no_handphone" placeholder="No. Handphone">
+                        <input type="text" class="form-control" id="user_no_handphone" placeholder="No. Handphone" readonly />
+                        <a href="javaScript:;" onclick="showNoVerifikasi()" style="color: #000; font-size: 12px">Ganti No. Handphone</a>
+                        <br />
+                        <!-- <button type="button" class="btn btn-primary mr-2">Simpan</button> -->
+                      </div>
+                    </div>
+                    <div class="form-group row formInput-no_verifikasi">
+                      <label for="user_no_verifikasi" class="col-sm-3 col-form-label"></label>
+                      <div class="col-sm-3">
+                        <input type="text" class="form-control" id="user_no_verifikasi" placeholder="No. Verifikasi" maxlength="5" />
+                        <a href="javaScript:;" style="color: #000; font-size: 12px" onclick="generateNoVerifikasi()">Minta No. Verifikasi</a>
+                        <br />
+                        <span id="countdown_no_verifikasi" style="font-size: 12px"></span>
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-3"></div>
                       <div class="col-sm-9">
                         <button type="button" class="btn btn-primary mr-2">Simpan</button>
-                        <!-- <button class="btn btn-light">Cancel</button> -->
                       </div>
                     </div>
                   </form>
@@ -168,13 +179,62 @@
   var json_datatable = null
   $(document).ready(function(e) {
     loadData()
+
+    $('.formInput-no_verifikasi').css('display', 'none')
   })
+
+  var intervalNoVerifikasi = null
+  function generateNoVerifikasi() {
+    let no_verifikasi = Math.floor((Math.random() * 99999))
+
+    $('#user_no_verifikasi').val(no_verifikasi)
+
+    let countdown = 60;
+
+    clearInterval(intervalNoVerifikasi)
+    intervalNoVerifikasi = setInterval(function() {
+      if (countdown >= 0)
+        (function() {
+          $('#countdown_no_verifikasi').html(countdown == 0? 'Waktu Habis, silakan minta nomor verifikasi lagi.' : countdown)
+
+          countdown--
+        }())
+      else
+        clearInterval(intervalNoVerifikasi)
+    }, 1000)
+  }
+
+  function showNoVerifikasi() {
+    $('#user_no_handphone').attr('readonly', false)
+    $('.form-group.row:not(.formInput-user_no_handphone)').css('display', 'none')
+  }
 
   function loadData() {
     json_datatable = null;
 
     // if (!$('#datatable'))
-    //   return false
+    //   console.log('tidak ada')
+
+    let user_role = '<?=$user_role?>'
+
+    if (user_role != 3)
+      $.ajax({
+        url: 'pengaturan/dataPribadi',
+        type: 'POST',
+        data: {},
+        dataType: 'JSON',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+          // console.log(response)
+
+          let data = Object.entries(response.pengguna[0])
+          $.each($('#form-user').find('input'), (i, item) => {
+            item.value = data[i][1]
+          })
+        }
+      })
 
     var table = $('#datatable').DataTable();
 

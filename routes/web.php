@@ -31,6 +31,7 @@ Route::post('/data', [DashboardController::class, 'data']);
 
 Route::get('/pengaturan', [SettingController::class, 'index']);
 Route::post('/pengaturan/data', [SettingController::class, 'data']);
+Route::post('/pengaturan/dataPribadi', [SettingController::class, 'dataPribadi']);
 Route::post('/pengaturan/getDetail', [SettingController::class, 'getDetail']);
 
 Route::get('/dokter', [DokterController::class, 'index']);

@@ -45,6 +45,7 @@
                   <div class="pull-right">
                     <!-- <button type="button" class="btn btn-sm btn-primary btn-fw" data-fancybox data-src="#popup-barang"><i class="mdi mdi-plus-circle"></i> Tambah</button> -->
                     <button type="button" class="btn btn-sm btn-primary btn-fw tambahData" data-toggle="modal" data-target="#popup-barang"><i class="mdi mdi-plus-circle"></i> Tambah</button>
+                    <button type="button" class="btn btn-sm btn-primary btn-fw cariData" data-toggle="modal" data-target="#modal-pencarian"><i class="mdi mdi-search-web"></i> Pencarian</button>
                   </div>
                   <div class="table-responsive">
                     <table id="datatable" class="table table-hover table-striped" width="100%">
@@ -152,6 +153,42 @@
                     </div>
                   </div>
 
+                  <div id="modal-pencarian" class="modal fade">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">Pencarian</h4>
+                          <a class="close" data-dismiss="modal">&times;</a>
+                        </div>
+                        <div class="modal-body" style="margin: 10px 15px">
+                          <form id="form-pencarian">
+                            <div class="form-group row">
+                              <label for="s_user_nama" class="control-label col-sm-4">Nama</label>
+                              <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-sm freetext" id="s_user_nama" placeholder="Nama Pengguna" />
+                              </div>.
+                            </div>
+                            <div class="form-group row">
+                              <label for="s_user_jenis" class="control-label col-sm-4">Jenis Pengguna</label>
+                              <div class="col-sm-6">
+                                <select class="form-control form-control-sm select2" id="s_user_jenis">
+                                  <option value=''>--- Pilih Salah Satu ---</option>
+                                  <option value='1'>Dokter</option>
+                                  <option value='2'>Tenaga Medis</option>
+                                  <option value='3'>Pasien</option>
+                                </select>
+                              </div>.
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-sm btn-primary btn-rounded" onclick="reset()"><i class="mdi mdi-recycle"></i> Reset</button>
+                          <button type="button" class="btn btn-sm btn-secondary btn-rounded" data-dismiss="modal"><i class="mdi mdi-close"></i> Kembali</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div id="popup-barang2" style="display: none">
                     <h2>Pasien</h2>
 
@@ -202,6 +239,7 @@
   <script src="plugins/jquery-custom-scrollbar/jquery.custom-scrollbar.js"></script>
   <script src="plugins/datatables/datatables/js/jquery.dataTables.min.js"></script>
   <script>
+  var json_datatable = null, timeSearch = null
   $(document).ready(function(e) {
     loadData()
 
@@ -249,6 +287,17 @@
     })
   })
 
+  function reset() {
+    $.each($('#form-pencarian').find('input, select'), (i, item) => {
+      if (item.type == 'text')
+        item.value = ''
+      else if (item.type == 'select-one')
+        $('#' + item.id).val('').trigger('change')
+    })
+
+    loadData()
+  }
+
   function loadData() {
     json_datatable = null;
 
@@ -286,8 +335,20 @@
         //   role: 'search',
         //   target: 'form-search'
         // })
-        //
-        // $.each(s_data, (i, item) => aoData.push(item))
+
+        let s_data = []
+
+        $.each($('#form-pencarian').find('input, select'), (i, item) => {
+          s_data.push({
+            name: 'sType_'+i,
+            value: item.className.replace('form-control form-control-sm', '').trim() })
+
+          s_data.push({
+            name: 'sSearch_'+i,
+            value: item.type == 'text'? item.value : $('#' + item.id + ' :selected').val() })
+        })
+
+        $.each(s_data, (i, item) => aoData.push(item))
 
         $.ajax({
           type: "POST",
@@ -301,6 +362,20 @@
             fnCallback(data)
 
             json_datatable = data.aaData;
+
+            $('#form-pencarian').find('input.freetext').on('keyup', function(e) {
+              clearTimeout(timeSearch)
+              timeSearch = setTimeout(function() {
+                loadData()
+              }, 1500)
+            })
+
+            $('#form-pencarian').find('select').on('change', function(e) {
+              clearTimeout(timeSearch)
+              timeSearch = setTimeout(function() {
+                loadData()
+              }, 1500)
+            })
 
             $('#datatable').find('.actionUbah').on('click', function(e) {
               let id = $(this).attr('data-user')

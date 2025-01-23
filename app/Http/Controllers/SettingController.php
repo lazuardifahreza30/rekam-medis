@@ -23,6 +23,25 @@ class SettingController extends Controller
       endif;
     }
 
+    public function dataPribadi(Request $req) {
+      try {
+        $pengguna = Pengguna::select(['user_nama', 'user_email', 'user_no_handphone'])
+                            ->join('v_user_all', 'v_user_id', 'user_id')
+                            ->where('user_master_id', '=', $req->session()->get('user_master_id'))
+                            ->where('user_id', '=', $req->session()->get('user_id'))
+                            ->get();
+      } catch (\Exception $e) {
+        return response()->json([
+          'data' => [],
+          'message' => $e->getMessage()
+        ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+      }
+
+      return response()->json([
+        "pengguna" => $pengguna
+      ], JsonResponse::HTTP_OK);
+    }
+
     public function data(Request $req) {
       try {
         $columns = array('jk_id', 'jk_created_date', 'jk_jenis', 'jk_keluhan', 'dokter_nama');

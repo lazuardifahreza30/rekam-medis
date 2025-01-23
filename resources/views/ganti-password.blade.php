@@ -94,7 +94,7 @@
 
     $('#user_re_password').on('keydown', function(e) {
       if (e.keyCode == 13)
-      gantiPassword()
+        gantiPassword()
     })
   })
 
@@ -164,7 +164,7 @@
     return false
 
     $.ajax({
-      url: '/signin/login',
+      url: '/signin/gantiPassword',
       type: 'POST',
       data: data,
       dataType: 'json',

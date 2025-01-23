@@ -32,19 +32,32 @@ class KunjunganController extends Controller
         $ColumnsWhere = array('', 'jk_no_antrian', 'jk_created_date', 'pasien_nama', 'dokter_nama');
 
         $fieldCond = $req->session()->get('user_jenis') == 3? 'jk_pasien_id' : 'jk_dokter_id';
-        $data = Kunjungan::select($columns)
-                          ->join('m_dokter', 'dokter_id', 'jk_dokter_id')
-                          ->join('m_pasien', 'pasien_id', 'jk_pasien_id')
-                          ->where($fieldCond, '=', $req->session()->get('user_master_id'))
-                          ->orderBy($ColumnsWhere[$_POST['iSortCol_0']], $_POST['sSortDir_0'])
-                          ->offset($_POST['iDisplayStart'])
-                          ->limit($_POST['iDisplayLength'])
-                          ->get();
+        // $data = Kunjungan::select($columns)
+        //                   ->join('m_dokter', 'dokter_id', 'jk_dokter_id')
+        //                   ->join('m_pasien', 'pasien_id', 'jk_pasien_id')
+        //                   ->where($fieldCond, '=', $req->session()->get('user_master_id'))
+        //                   ->where('DATE(jk_created_date)', date('Y-m-d'))
+        //                   ->orderBy($ColumnsWhere[$_POST['iSortCol_0']], $_POST['sSortDir_0'])
+        //                   ->offset($_POST['iDisplayStart'])
+        //                   ->limit($_POST['iDisplayLength'])
+        //                   ->get();
+
+        $cond = '';
+        $cond .= isset($_POST['sSearch_0']) && $_POST['sSearch_0'] != ''? ' AND pasien_nama LIKE \'%'.$_POST['sSearch_0'].'%\' ' : '';
+        $cond .= isset($_POST['sSearch_1']) && $_POST['sSearch_1'] != ''? ' AND DATE(jk_created_date) = "'.date("Y-m-d", strtotime($_POST['sSearch_1'])).'" ' : '';
+        $query = "SELECT ".implode(",", $columns)."
+                  FROM t_jadwal_kunjungan t1
+                  JOIN m_dokter t2 ON t2.dokter_id = t1.jk_dokter_id
+                  JOIN m_pasien t3 ON t3.pasien_id = t1.jk_pasien_id
+                  WHERE $fieldCond = ".$req->session()->get('user_master_id')." $cond
+                  ORDER BY ".$ColumnsWhere[$_POST['iSortCol_0']]." ".$_POST['sSortDir_0']."
+                  LIMIT ".$_POST['iDisplayStart'].", ".$_POST['iDisplayLength'];
+
+        $data = DB::select($query);
 
         for ($i = 0; $i < count($data); $i++):
-          $data[$i]['no'] = $i + 1;
-          $data[$i]['jk_waktu_kunjungan'] = date("d-m-Y H:i:s", strtotime($data[$i]['jk_waktu_kunjungan']));
-          $data[$i]['jk_created_date'] = date("d-m-Y H:i:s", strtotime($data[$i]['jk_created_date']));
+          $data[$i]->no = $i + 1;
+          $data[$i]->jk_created_date = date("d-m-Y H:i:s", strtotime($data[$i]->jk_created_date));
         endfor;
       } catch (\Exception $e) {
         return response()->json([
@@ -71,6 +84,8 @@ class KunjunganController extends Controller
 
     public function create(Request $req) {
       try {
+        date_default_timezone_set('Asia/Jakarta');
+
         $data = $req->all();
 
         if ($req->jk_id == ''):
@@ -93,7 +108,7 @@ class KunjunganController extends Controller
             $subject = 'Kunjungan';
 
             $body = '<p>Anda telah berhasil membuat kunjungan, nomor antrian Anda:</p>';
-            $body .= '<div style="width: 50px; height: auto; font-weight: bold">'.$data['jk_no_antrian'].'</div>';
+            $body .= '<div style="width: 50px; height: auto; font-weight: bold; font-size: 50px; text-align: center">'.$data['jk_no_antrian'].'</div>';
 
             $header  = 'MIME-Version: 1.0' . "\r\n";
             $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";

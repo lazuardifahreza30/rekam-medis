@@ -94,8 +94,14 @@
               </div>
                 <div class="form-group row">
                   <label for="user_username" class="control-label col-sm-4">Username</label>
-                  <div class="col-sm-7">
+                  <div class="col-sm-7 input-group">
                     <input type="text" id="user_username" name="kode_fakultas" class="form-control form-control-sm" placeholder="Username" />
+                    <div class="input-group-append bg-transparent">
+                      <!-- <a href="javaScript:;"><i class="mdi mdi-refresh"></i></a> -->
+                      <span class="input-group-text bg-transparent border-right-0 generateUsername">
+                        <i class="mdi mdi-refresh text-primary"></i>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -138,6 +144,18 @@
   <script>
   $(document).ready(function(e) {
     $('.select2').select2()
+
+    $('.generateUsername').on('click', function(e) {
+      let nama = $('#user_nama').val().split(" "),
+          simbol = ['@', '~', '$', '#', '_', '!'],
+          upcase = [true, false],
+          first_name = upcase[Math.floor((Math.random() * 2))] == true? nama[0].replace(nama[0].charAt(0), nama[0].charAt(0).toUpperCase()) : nama[0],
+          username = (nama.length > 1? first_name + '.' + nama[1] : first_name) + simbol[Math.floor((Math.random() * 5))] + Math.floor((Math.random() * 999))
+
+      // console.log(username)
+
+      $('#user_username').val(username)
+    })
   })
 
   $('#user_password').on('keydown', function(e) {

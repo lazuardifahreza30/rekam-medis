@@ -19,6 +19,7 @@
   <!-- <link href="plugins/tailwindcss/tailwind.min.css" rel="stylesheet" /> -->
   <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css" />
   <link rel="stylesheet" href="plugins/select2/dist/css/select2.min.css" />
+  <link rel="stylesheet" href="plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
   <link rel="stylesheet" href="plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
   <link href="plugins/bootstrap-icons-1.5.0/bootstrap-icons.css" rel="stylesheet" />
   <link href="plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.min.css" rel="stylesheet" />
@@ -69,6 +70,8 @@
                     <!-- <button type="button" class="btn btn-sm btn-primary btn-fw" data-fancybox data-src="#popup-barang"><i class="mdi mdi-plus-circle"></i> Tambah</button> -->
                   <?php if ($user_role == 3): ?>
                     <button type="button" class="btn btn-sm btn-primary btn-fw tambahData" data-toggle="modal" data-target="#modal-kunjungan"><i class="mdi mdi-plus-circle"></i> Tambah</button>
+                  <?php else: ?>
+                    <button type="button" class="btn btn-sm btn-primary btn-fw searchData" data-toggle="modal" data-target="#modal-pencarian"><i class="mdi mdi-search-web"></i> Pencarian</button>
                   <?php endif; ?>
                   </div>
                   <div class="table-responsive">
@@ -84,6 +87,39 @@
                         </tr>
                       </thead>
                     </table>
+                  </div>
+
+                  <div id="modal-pencarian" class="modal fade">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4>Pencarian</h4>
+                          <a data-dismiss="modal">&times;</a>
+                        </div>
+                        <div class="modal-body" style="margin: 10px 15px">
+                          <form id="form-pencarian" class="skin-default custom-scrollbar">
+                            <!-- <div class="mt-10 grid grid-cols-12 gap-x-6 gap-y-2 sm:grid-cols-12"> -->
+                              <div class="form-group row">
+                                <label for="s_pasien_nama" class="control-label col-sm-4">Nama Pasien</label>
+                                <div class="col-sm-6">
+                                  <input type="text" class="form-control form-control-sm freetext" id="s_pasien_nama" placeholder="Nama Pasien" />
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="s_jk_created_date" class="control-label col-sm-4">Tanggal Kunjungan</label>
+                                <div class="col-sm-6">
+                                  <input type="text" class="form-control form-control-sm datepicker" id="s_jk_created_date" value="<?=date("d-m-Y")?>" />
+                                </div>
+                              </div>
+
+                            <!-- </div> -->
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-sm btn-secondary btn-rounded" data-dismiss="modal"><i class="mdi mdi-recycle"></i> Kembali</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div id="modal-kunjungan" class="modal fade">
@@ -215,6 +251,7 @@
   <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
   <script src="plugins/select2/dist/js/select2.min.js"></script>
   <script src="plugins/moment/moment.js"></script>
+  <script src="plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
   <script src="plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
   <script src="plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js"></script>
   <script src="plugins/fancybox/dist/jquery.fancybox.min.js"></script>
@@ -226,6 +263,11 @@
     loadDokter()
 
     $('.select2').select2()
+    $('.datepicker').datepicker({
+      "autoclose": true,
+      "format": "dd-mm-yyyy",
+      "todayHighlight": true
+    })
     $('.datetimepicker').datetimepicker({
       "allowInputToggle": true,
       "showClose": true,
@@ -283,6 +325,7 @@
     })
   }
 
+  var timeSearch = null
   function loadData() {
     json_datatable = null;
 
@@ -301,13 +344,13 @@
         $('#datatable').find('td').addClass('border border-slate-300')
         $('#datatable').find('.paginate_button.current').css('color', '#fff !important')
 
-        $('#form-search').find('input').on('keyup', function(e) {
-          clearTimeout(timeSearch)
-          timeSearch = setTimeout(function() {
-            if (e.target.value != '')
-              loadData()
-          }, 1500)
-        })
+        // $('#form-search').find('input').on('keyup', function(e) {
+        //   clearTimeout(timeSearch)
+        //   timeSearch = setTimeout(function() {
+        //     if (e.target.value != '')
+        //       loadData()
+        //   }, 1500)
+        // })
       },
       bFilter: true,
       processing: true,
@@ -324,7 +367,15 @@
         //   target: 'form-search'
         // })
         //
-        // $.each(s_data, (i, item) => aoData.push(item))
+
+        let s_data = []
+
+        $.each($('#form-pencarian').find('input'), (i, item) => {
+          s_data.push({ name: 'sType_'+i, value: item.className.replace('form-control form-control-sm', '').trim() })
+          s_data.push({ name: 'sSearch_'+i, value: item.value })
+        })
+
+        $.each(s_data, (i, item) => aoData.push(item))
 
         $.ajax({
           type: "POST",
@@ -338,6 +389,18 @@
             fnCallback(data)
 
             json_datatable = data.aaData;
+
+            $('#form-pencarian').find('input.freetext').on('keyup', function(e) {
+              clearTimeout(timeSearch)
+              timeSearch = setTimeout(function() {
+                if (e.target.value != '')
+                  loadData()
+              }, 1500)
+            })
+
+            $('#form-pencarian').find('input.datepicker').on('change', function(e) {
+              loadData()
+            })
 
             $('#datatable').find('.actionDiagnosa').on('click', function(e) {
               let id = $(this).attr('data-jk')
