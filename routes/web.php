@@ -23,6 +23,8 @@ Route::get('/signin', [SignInController::class, 'index']);
 Route::get('/registrasi', [SignInController::class, 'registrasi']);
 Route::get('/ganti-password', [SignInController::class, 'gantiPassword']);
 Route::post('/signin/periksaAkun', [SignInController::class, 'periksaAkun']);
+Route::post('/signin/kirimEmail', [SignInController::class, 'kirimEmail']);
+Route::post('/signin/gantiPassword', [SignInController::class, 'gantiPassword2']);
 Route::post('/signin/login', [SignInController::class, 'login']);
 Route::get('/signin/logout', [SignInController::class, 'logout']);
 
@@ -33,6 +35,8 @@ Route::get('/pengaturan', [SettingController::class, 'index']);
 Route::post('/pengaturan/data', [SettingController::class, 'data']);
 Route::post('/pengaturan/dataPribadi', [SettingController::class, 'dataPribadi']);
 Route::post('/pengaturan/getDetail', [SettingController::class, 'getDetail']);
+Route::post('/pengaturan/kirimEmail', [SettingController::class, 'kirimEmail']);
+Route::post('/pengaturan/gantiEmail', [SettingController::class, 'gantiEmail']);
 
 Route::get('/dokter', [DokterController::class, 'index']);
 Route::post('/dokter/getData', [DokterController::class, 'getData']);

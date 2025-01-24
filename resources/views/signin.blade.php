@@ -54,7 +54,7 @@
                       Keep me signed in
                     </label> -->
                   </div>
-                  <a href="./ganti-password" class="auth-link text-black">Lupa password?</a>
+                  <a href="./ganti-password" class="auth-link text-primary">Lupa password?</a>
                 </div>
                 <div class="mb-2">
                   <!-- <button type="button" class="btn btn-block btn-facebook auth-form-btn">

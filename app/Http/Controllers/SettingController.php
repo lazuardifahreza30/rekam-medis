@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Kunjungan;
 use App\Pengguna;
+use App\Dokter;
 
 class SettingController extends Controller
 {
@@ -89,6 +90,49 @@ class SettingController extends Controller
         $response = Kunjungan::select($columns)
                               ->where('jk_id', '=', $req->jk_id)
                               ->get();
+      } catch (\Exception $e) {
+        return response()->json([
+          'data' => [],
+          'message' => $e->getMessage()
+        ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+      }
+
+      return response()->json($response, JsonResponse::HTTP_OK);
+    }
+
+    public function kirimEmail(Request $req) {
+      $to = $req->user_email;
+
+      $response = array();
+
+      $subject = 'No. Verifikasi';
+
+      $body = '<p>Untuk mengganti E-mail</b>, silakan gunakan no. verifikasi ini dan jangan berikan pada siapapun.</p>';
+      $body .= '<span style="font-size: 30px">'.$req->no_verifikasi.'</span>';
+
+      $header  = 'MIME-Version: 1.0' . "\r\n";
+      $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+      $header .= "To: <$to>" . "\r\n";
+      $header .= 'From: lazuardifahreza853@gmail.com'."\r\n";
+
+      if(mail($to,$subject,$body,$header))
+        $response['status_email'] = "Your Mail is sent successfully.";
+      else
+        $response['status_email'] = "Your Mail is not sent. Try Again.";
+
+      $response['status'] = $response['status_email'] == 'Your Mail is sent successfully.'? 'succ': 'fail';
+
+      return response()->json($response, JsonResponse::HTTP_OK);
+    }
+
+    public function gantiEmail(Request $req) {
+      try {
+        $pengguna = Dokter::where('dokter_id', $req->session()->get('user_master_id'))
+                            ->update([
+                              'dokter_email' => $req->user_email
+                            ]);
+
+        $response['status'] = $pengguna? 'succ' : 'fail';
       } catch (\Exception $e) {
         return response()->json([
           'data' => [],

@@ -13,6 +13,7 @@
   <!-- endinject -->
   <!-- plugin css for this page -->
   <link href="plugins/datatables/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="../../css/style.css">
@@ -51,28 +52,31 @@
                         <input type="text" class="form-control" id="user_nama" placeholder="Nama" readonly />
                       </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row formInput-user_email">
                       <label for="user_email" class="col-sm-3 col-form-label">Email</label>
                       <div class="col-sm-9">
                         <input type="email" class="form-control" id="user_email" placeholder="Email" readonly />
+                        <a href="javaScript:;" onclick="showNoVerifikasi()" style="color: #000; font-size: 12px">Ganti E-mail</a>
                       </div>
                     </div>
-                    <div class="form-group row formInput-user_no_handphone">
+                    <div class="form-group row">
                       <label for="user_no_handphone" class="col-sm-3 col-form-label">No. Handphone</label>
                       <div class="col-sm-9">
                         <input type="text" class="form-control" id="user_no_handphone" placeholder="No. Handphone" readonly />
-                        <a href="javaScript:;" onclick="showNoVerifikasi()" style="color: #000; font-size: 12px">Ganti No. Handphone</a>
+                        <!-- <a href="javaScript:;" onclick="showNoVerifikasi()" style="color: #000; font-size: 12px">Ganti No. Handphone</a> -->
                         <br />
-                        <!-- <button type="button" class="btn btn-primary mr-2">Simpan</button> -->
                       </div>
                     </div>
                     <div class="form-group row formInput-no_verifikasi">
                       <label for="user_no_verifikasi" class="col-sm-3 col-form-label"></label>
                       <div class="col-sm-3">
                         <input type="text" class="form-control" id="user_no_verifikasi" placeholder="No. Verifikasi" maxlength="5" />
+                        <input type="hidden" id="no_verifikasi" />
                         <a href="javaScript:;" style="color: #000; font-size: 12px" onclick="generateNoVerifikasi()">Minta No. Verifikasi</a>
                         <br />
-                        <span id="countdown_no_verifikasi" style="font-size: 12px"></span>
+                        <span id="countdown_no_verifikasi" style="font-size: 30px"></span>
+                        <br />
+                        <button type="button" class="btn btn-primary mr-2" onclick="gantiEmail()">Simpan</button>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -174,6 +178,7 @@
   <!-- Custom js for this page-->
   <!-- <script src="../../js/file-upload.js"></script> -->
   <!-- End custom js for this page-->
+  <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
   <script src="plugins/datatables/datatables/js/jquery.dataTables.min.js"></script>
   <script>
   var json_datatable = null
@@ -183,11 +188,84 @@
     $('.formInput-no_verifikasi').css('display', 'none')
   })
 
+  function gantiEmail() {
+    let condEmail = $('#user_no_verifikasi').val() != $('#no_verifikasi').val(),
+        condEmail2 = $('#countdown_no_verifikasi').html() == 'Waktu Habis, silakan minta nomor verifikasi lagi.',
+        condAll = $('#user_no_verifikasi').val() == $('#no_verifikasi').val() &&
+                  $('#countdown_no_verifikasi').html() != 'Waktu Habis, silakan minta nomor verifikasi lagi.'
+    if (condEmail)
+      Swal.fire({
+        title: 'Peringatan!',
+        html: 'No. verifikasi tidak sesuai, silakan masukkan kembali no. verifikasi yang Anda dapatkan dari E-mail.<br /><br />',
+        icon: 'warning',
+        showConfirmButton: false,
+        timer: 2500
+      })
+    else if (condEmail2)
+      Swal.fire({
+        title: 'Peringatan!',
+        html: 'No. verifikasi sudah kadaluarsa, silakan minta no. verifikasi lagi untuk mendapatkan no. verifikasi yang baru.<br /><br />',
+        icon: 'warning',
+        showConfirmButton: false,
+        timer: 2500
+      })
+    else if (condAll)
+      $.ajax({
+        url: 'pengaturan/gantiEmail',
+        type: 'POST',
+        data: {
+          user_email: $('#user_email').val()
+        },
+        dataType: 'JSON',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+          // console.log(response)
+
+          if (response.status == 'succ')
+            Swal.fire({
+              title: 'Success!',
+              html: 'Berhasil mengganti Email.<br /><br />',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 2000
+            }).then(() => {
+              window.location = './pengaturan'
+            })
+          else
+            Swal.fire({
+              title: 'Failed!',
+              html: 'Gagal mengganti Email, silakan periksa jaringan internet Anda, pastikan sudah terhubung ke jaringan internet dan coba lagi.<br /><br />',
+              icon: 'error',
+              showConfirmButton: false,
+              timer: 2500
+            })
+        }
+      })
+  }
+
   var intervalNoVerifikasi = null
   function generateNoVerifikasi() {
     let no_verifikasi = Math.floor((Math.random() * 99999))
 
-    $('#user_no_verifikasi').val(no_verifikasi)
+    $('#no_verifikasi').val(no_verifikasi)
+
+    $.ajax({
+      url: 'pengaturan/kirimEmail',
+      type: 'POST',
+      data: {
+        no_verifikasi: no_verifikasi,
+        user_email: $('#user_email').val()
+      },
+      dataType: 'JSON',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function(response) {
+        console.log(response)
+      }
+    })
 
     let countdown = 60;
 
@@ -195,6 +273,7 @@
     intervalNoVerifikasi = setInterval(function() {
       if (countdown >= 0)
         (function() {
+          $('#countdown_no_verifikasi').css('font-size', countdown == 0? '12px' : '30px')
           $('#countdown_no_verifikasi').html(countdown == 0? 'Waktu Habis, silakan minta nomor verifikasi lagi.' : countdown)
 
           countdown--
@@ -205,8 +284,9 @@
   }
 
   function showNoVerifikasi() {
-    $('#user_no_handphone').attr('readonly', false)
-    $('.form-group.row:not(.formInput-user_no_handphone)').css('display', 'none')
+    $('#user_email').attr('readonly', false)
+    $('.form-group.row:not(.formInput-user_email)').css('display', 'none')
+    $('.formInput-no_verifikasi').css('display', 'flex')
   }
 
   function loadData() {
@@ -231,7 +311,8 @@
 
           let data = Object.entries(response.pengguna[0])
           $.each($('#form-user').find('input'), (i, item) => {
-            item.value = data[i][1]
+            if (data[i])
+              item.value = data[i][1]
           })
         }
       })
